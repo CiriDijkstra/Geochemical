@@ -1,6 +1,7 @@
 from scipy.stats import *
 import numpy as np
 
+
 class ElementList(list):
     """
     用一个list存储某个元素的一系列含量，此外还添加了以下功能：
@@ -11,10 +12,10 @@ class ElementList(list):
     根据元素含量服从正态分布或算术正态分布用不同的公式计算其背景上限
     """
     def __init__(self, element_name='', element_content=[]):
-        '''
+        """
         :param element_name: 该元素的名称，字符串
         :param element_content: 该元素的含量序列
-        '''
+        """
         list.__init__([])
         self.element_name = element_name
         self.extend(element_content)
@@ -32,7 +33,7 @@ class ElementList(list):
         while len1 > len2:
             c = np.array(origin_data).mean()
             s = np.array(origin_data).std(ddof=1)
-            robust_data = list(filter(lambda x: x > c-k*s and x < c+k*s, origin_data))
+            robust_data = list(filter(lambda x: c-k*s < x < c+k*s, origin_data))
             len1 = len(origin_data)
             len2 = len(robust_data)
             origin_data = robust_data
@@ -58,7 +59,7 @@ class ElementList(list):
         :return: 若元素含量服从算数正态分布的概率更大，返回字符串'norm'；
                  否则认为其服从对数正态分布，返回字符串'lognorm'
         """
-        if shapiro(self.robust_data())[1] > shapiro(np.log(self.robust_data()))[1]:
+        if kstest(self.robust_data(), 'norm')[1] > kstest(np.log(self.robust_data()), 'norm')[1]:
             return 'norm'
         else:
             return 'lognorm'

@@ -4,11 +4,12 @@ from Element import *
 import numpy as np
 import time
 
+
 time_start = time.time()
-wb = load_workbook('samples.xlsx')      #务必将存储原始数据的表格文件命名为“samples.xlsx”
+wb = load_workbook('samples.xlsx')      #务必将存储原始数据的表格文件命名为“samples.xlsx”，并将数据保存在第一个工作表中
 sheet = wb.worksheets[0]
 #以下程序段用于读入各变量在表格文件中的列数，务必将变量名存储在第一行
-#务必将高斯坐标X、Y坐标的变量名存储为“XX”和“YY”
+#务必将经纬度坐标变量名存储为“XX”和“YY”
 #务必将各元素含量的变量名存储为该元素的符号，如W、Sn、Au等
 #务必将类标号的变量名存储为“class”
 XX_col, YY_col, W_col, Sn_col, Pb_col, Zn_col, class_col = 0, 0, 0, 0, 0, 0, 0
@@ -57,7 +58,7 @@ for i in range(1,6):
             Zn.append(each.Zn)
     for element in temp_list:
         sheet_ca.append([i, len(element), element.element_name, element.distribution_pattern(), element.c_a()])
-        del element[ : ]
+        del element[:]
 wb1.save('分类情况.xlsx')
 
 #以下程序段将各元素在各分类下的背景上限存储到一个字典列表中，列表由5个字典组成，每个字典代表一个分类
@@ -78,7 +79,7 @@ for each in sample_list:
     neighborhood = []
     for another in sample_list:
         if another != each and another.class_id == each.class_id and another.is_adjacency(each):
-           neighborhood.append(another)
+            neighborhood.append(another)
     W, Sn, Pb, Zn = [], [], [], []
     for each_neighbor in neighborhood:
         W.append(each_neighbor.W)
@@ -102,7 +103,7 @@ for each in sample_list:
     else:
         each.Zn_contrast = 0
 
-#以下程序段将各样品的高斯坐标、元素变差衬度值输出到表格文件“变差衬度值.xlsx”中
+#以下程序段将各样品的经纬度坐标、元素变差衬度值输出到表格文件“变差衬度值.xlsx”中
 wb2 = Workbook()
 sheet_contrast = wb2.worksheets[0]
 sheet_contrast.append(['XX', 'YY', 'W', 'Sn', 'Pb', 'Zn'])

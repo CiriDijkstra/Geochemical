@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 
 
 class Sample:
@@ -10,13 +10,13 @@ class Sample:
     微量元素的“变差衬度值”
     常量元素含量（用于做分类或聚类，用一个list存储）
     类标号（默认未分类为-1，类标号从1开始到k）
-    成员函数包括：
+    实例方法包括：
     dist：计算两个样品常量元素含量之间的欧氏距离（二范数）
     describe：输出该样品的一些描述信息
-    is_adjacency：判断两个样品在高斯网格上是否相邻
+    is_adjacency：判断两个样品在经纬度网格上是否相邻
     """
     next_id = 1
-    max_edge = 0.03    #高斯网格上相邻网格点的高斯坐标距离约为0.02，取一个比0.02的根号2倍稍大的数即可
+    max_edge = 0.03    #经纬度网格上相邻网格点的经纬度坐标距离约为0.02，取一个比0.02的根号2倍稍大的数即可
 
     def __init__(self, XX, YY, W , Sn, Pb, Zn, class_id = -1):
         """
@@ -42,7 +42,7 @@ class Sample:
 
     def describe_sample(self):
         """
-        输出一个样品的一些描述信息，包括样品号、高斯坐标、元素含量和类标号
+        输出一个样品的一些描述信息，包括样品号、经纬度坐标、元素含量和类标号
         """
         print('id=%d' %self.sample_id)
         print('Gauss grid=(%lf,%lf)' %(self.XX,self.YY))
@@ -62,7 +62,7 @@ class Sample:
 
     def is_adjacency(self,another_sample):
         """
-        判断两个样品是否在高斯网格上相邻
+        判断两个样品是否在网格上相邻
         :param another_sample: 另一个Sample类的实例
         :return: 若两者相邻，返回True；否则返回False
         """
